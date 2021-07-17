@@ -24,8 +24,50 @@ app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/public/notes
 
 
 /*
+const getNotes = () =>
+  fetch('/api/notes', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+*/
+app.get("/api/notes", (req, res) => {
+    
+});
+
+/*
+const saveNote = (note) =>
+  fetch('/api/notes', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(note),
+  });
+
+*/
+app.post("/api/notes", (req, res) => {
+
+})
 
 
+
+/*
+const deleteNote = (id) =>
+  fetch(`/api/notes/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+*/
+app.delete("/api/notes/:id", (req, res) => {
+
+});
+
+/*
 const getNotes = () =>
   fetch('/api/notes', {
     method: 'GET',
