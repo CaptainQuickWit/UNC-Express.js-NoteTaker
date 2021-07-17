@@ -47,13 +47,7 @@ const saveNote = (note) =>
 
 */
 app.post("/api/notes", (req, res) => {
-    let newNote = req.body;
-    let noteList = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
-    let notelength = (noteList.length).toString();
-    newNote.id = notelength;
-    noteList.push(newNote);
-    fs.writeFileSync("./db/db.json", JSON.stringify(noteList));
-    res.json(noteList);
+
 })
 
 
@@ -69,13 +63,7 @@ const deleteNote = (id) =>
 
 */
 app.delete("/api/notes/:id", (req, res) => {
-    let noteList = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
-    let noteId = (req.params.id).toString();
-    noteList = noteList.filter(selected =>{
-        return selected.id != noteId;
-    })
-    fs.writeFileSync("./db/db.json", JSON.stringify(noteList));
-    res.json(noteList);
+
 });
 
 /*
