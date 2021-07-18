@@ -48,25 +48,30 @@ const saveNote = (note) =>
 
 */
 app.post("/api/notes", (req, res) => {
+  
   var jsonData;
   var notesObj = {
     title: req.body.title,
     text: req.body.text,
-
+    
   }; 
   try {
 
     fs.readFile(file, 'utf8', (err, jsonString) => {
       if (err) {
-          console.log("File read failed:", err)
-          return
-      }
-          console.log('File data:', jsonString);
+          console.log("File read failed:", err);
+          return;
+      } else {
+          console.log('File data1:', jsonString);
           jsonData =  JSON.parse(jsonString);
-      })
+          jsonData.push(notesObj);
 
-     console.log("jsonData==>"+jsonData);
-     fs.writeFileSync(file, JSON.stringify(notesObj));
+          console.log("jsonData1==>"+jsonData);
+          fs.writeFileSync(file, JSON.stringify(jsonData));
+      }});
+
+     //console.log("jsonData2==>"+jsonData);
+     //fs.writeFileSync(file, JSON.stringify(notesObj));
 
   } catch (err) {
     throw err;
