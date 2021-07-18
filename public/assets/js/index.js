@@ -73,6 +73,9 @@ const handleNoteSave = () => {
     getAndRenderNotes();
     renderActiveNote();
   });
+  //this gets the page to rerender the list on the side 
+  location.reload();
+  
 };
 
 // Delete the clicked note

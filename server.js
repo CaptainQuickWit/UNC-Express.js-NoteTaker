@@ -53,7 +53,7 @@ app.post("/api/notes", (req, res) => {
   var notesObj = {
     title: req.body.title,
     text: req.body.text,
-    
+
   }; 
   try {
 
@@ -76,6 +76,8 @@ app.post("/api/notes", (req, res) => {
   } catch (err) {
     throw err;
   }
+
+
   
 
 })
