@@ -4,7 +4,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-
+const file = "./db/db.json";
 
 
 //Uses Express and sets up the port
@@ -15,6 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 // Starts the server to begin listening
+
 
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
 
@@ -32,7 +33,7 @@ const getNotes = () =>
   });
 */
 app.get("/api/notes", (req, res) => {
-    res.sendFile(path.join(__dirname, "/db/db.json"));
+    res.sendFile(path.join(__dirname, file));
 });
 
 /*
@@ -47,6 +48,30 @@ const saveNote = (note) =>
 
 */
 app.post("/api/notes", (req, res) => {
+  var jsonData;
+  var notesObj = {
+    title: req.body.title,
+    text: req.body.text,
+
+  }; 
+  try {
+
+    fs.readFile(file, 'utf8', (err, jsonString) => {
+      if (err) {
+          console.log("File read failed:", err)
+          return
+      }
+          console.log('File data:', jsonString);
+          jsonData =  JSON.parse(jsonString);
+      })
+
+     console.log("jsonData==>"+jsonData);
+     fs.writeFileSync(file, JSON.stringify(notesObj));
+
+  } catch (err) {
+    throw err;
+  }
+  
 
 })
 
