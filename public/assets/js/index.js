@@ -3,6 +3,7 @@ let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
+var idInt = 0;
 
 if (window.location.pathname === '/notes') {
   noteTitle = document.querySelector('.note-title');
@@ -52,7 +53,7 @@ const deleteNote = (id) =>
 
 const renderActiveNote = () => {
   hide(saveNoteBtn);
-
+  
   if (activeNote.id) {
     noteTitle.setAttribute('readonly', true);
     noteText.setAttribute('readonly', true);
@@ -68,10 +69,12 @@ const handleNoteSave = () => {
   const newNote = {
     title: noteTitle.value,
     text: noteText.value,
+    id: idInt
   };
   saveNote(newNote).then(() => {
     getAndRenderNotes();
     renderActiveNote();
+    idInt++;
   });
   //this gets the page to rerender the list on the side 
   location.reload();
@@ -85,7 +88,7 @@ const handleNoteDelete = (e) => {
 
   const note = e.target;
   const noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
-
+  
   if (activeNote.id === noteId) {
     activeNote = {};
   }
@@ -94,6 +97,9 @@ const handleNoteDelete = (e) => {
     getAndRenderNotes();
     renderActiveNote();
   });
+
+   //this gets the page to rerender the list on the side 
+   location.reload();
 };
 
 // Sets the activeNote and displays it

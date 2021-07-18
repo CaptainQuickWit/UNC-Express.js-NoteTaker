@@ -23,6 +23,7 @@ app.get('/',(req, res) => res.sendFile(path.join(__dirname, '/public/index.html'
 app.get('/home',(req, res) => res.sendFile(path.join(__dirname, '/public/index.html')));
 app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/public/notes.html')));
 
+let idInt = 1;
 /*
 const getNotes = () =>
   fetch('/api/notes', {
@@ -53,7 +54,7 @@ app.post("/api/notes", (req, res) => {
   var notesObj = {
     title: req.body.title,
     text: req.body.text,
-
+    id: idInt
   }; 
   try {
 
@@ -62,12 +63,14 @@ app.post("/api/notes", (req, res) => {
           console.log("File read failed:", err);
           return;
       } else {
+          idInt++;
           console.log('File data1:', jsonString);
           jsonData =  JSON.parse(jsonString);
           jsonData.push(notesObj);
 
           console.log("jsonData1==>"+jsonData);
           fs.writeFileSync(file, JSON.stringify(jsonData));
+          
       }});
 
      //console.log("jsonData2==>"+jsonData);
@@ -76,9 +79,6 @@ app.post("/api/notes", (req, res) => {
   } catch (err) {
     throw err;
   }
-
-
-  
 
 })
 
@@ -95,6 +95,29 @@ const deleteNote = (id) =>
 
 */
 app.delete("/api/notes/:id", (req, res) => {
+  console.log("THIS IS THE ID FOR DEL REQ ==>"+req.params.id.toString());
+  let notesUpdatedArray = [];
+  let idInput = req.params.id;
+  let dataStr = fs.readFileSync(file, "utf8");
+  let index = 0;
+
+  let data = JSON.parse(dataStr);
+  console.log("req.params.id ==>"+req.params.id);
+  console.log("parsed Data ==>"+data);
+  //var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+  console.log("data[0].id ==>"+data[0].id);
+    for( var i = 0; i < data.length; i++){ 
+      console.log("i before==>"+i);
+      
+        if ( data[i].id == idInput) { 
+          
+          data.splice(i, 1); 
+          console.log("found ele to delete!");
+        }
+        console.log("i after ==>"+i);
+    
+    }
+    fs.writeFileSync(file, JSON.stringify(data));
 
 });
 
