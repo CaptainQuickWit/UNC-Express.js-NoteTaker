@@ -24,30 +24,15 @@ app.get('/home',(req, res) => res.sendFile(path.join(__dirname, '/public/index.h
 app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/public/notes.html')));
 
 let idInt = 1;
-/*
-const getNotes = () =>
-  fetch('/api/notes', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-*/
+
+//renders the nodes on the left side of the page
 app.get("/api/notes", (req, res) => {
     res.sendFile(path.join(__dirname, file));
 });
 
-/*
-const saveNote = (note) =>
-  fetch('/api/notes', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(note),
-  });
-
-*/
+/**
+ * this is the post route it will attatch an ID to the note user inputed and will push it to an array of json objects
+ */
 app.post("/api/notes", (req, res) => {
   
   var jsonData;
@@ -73,27 +58,15 @@ app.post("/api/notes", (req, res) => {
           
       }});
 
-     //console.log("jsonData2==>"+jsonData);
-     //fs.writeFileSync(file, JSON.stringify(notesObj));
-
   } catch (err) {
     throw err;
   }
 
 })
 
-
-
-/*
-const deleteNote = (id) =>
-  fetch(`/api/notes/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-*/
+/**
+ * The delete route it will search for json object to delete by going through the entire array and using splice to cut it out. 
+ */
 app.delete("/api/notes/:id", (req, res) => {
   console.log("THIS IS THE ID FOR DEL REQ ==>"+req.params.id.toString());
   let notesUpdatedArray = [];
@@ -102,49 +75,15 @@ app.delete("/api/notes/:id", (req, res) => {
   let index = 0;
 
   let data = JSON.parse(dataStr);
-  console.log("req.params.id ==>"+req.params.id);
-  console.log("parsed Data ==>"+data);
-  //var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-  console.log("data[0].id ==>"+data[0].id);
+
     for( var i = 0; i < data.length; i++){ 
-      console.log("i before==>"+i);
-      
-        if ( data[i].id == idInput) { 
-          
+
+        if ( data[i].id == idInput) {          
           data.splice(i, 1); 
-          console.log("found ele to delete!");
+
         }
-        console.log("i after ==>"+i);
     
     }
     fs.writeFileSync(file, JSON.stringify(data));
 
 });
-
-/*
-const getNotes = () =>
-  fetch('/api/notes', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-const saveNote = (note) =>
-  fetch('/api/notes', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(note),
-  });
-
-const deleteNote = (id) =>
-  fetch(`/api/notes/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-*/
